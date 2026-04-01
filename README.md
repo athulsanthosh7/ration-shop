@@ -50,11 +50,7 @@ This system helps streamline operations in a ration shop by digitizing manual ta
    http://localhost/ration_shop
    ```
 
----
 
-## 📷 Screenshots (Optional)
-
-*Add screenshots of your UI here for better presentation*
 
 ---
 
