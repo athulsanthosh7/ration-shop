@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Customer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="form-page">
+
+    <!-- TOP HEADER -->
+    <div class="top-bar">
+        <a href="index.html" class="back-btn">&#8592;</a>
+        <h2>Add Customer</h2>
+    </div>
+
+    <!-- FORM CARD -->
+    <div class="form-container">
+
+        <form action="add_customer.php" method="POST">
+
+            <label>Customer ID</label>
+            <input type="number" name="id" placeholder="Enter customer ID" required>
+
+            <label>Full Name</label>
+            <input type="text" name="name" placeholder="Enter customer name" required>
+
+            <label>Address</label>
+            <input type="text" name="address" placeholder="Enter address" required>
+
+            <label>Phone Number</label>
+            <input type="text" name="phone" placeholder="Enter phone number" required>
+
+            <label>Ration Card Type</label>
+            <select name="card_type" required>
+                <option value="">Select Card Type</option>
+                <option value="APL">APL</option>
+                <option value="BPL">BPL</option>
+                <option value="AAY">AAY</option>
+            </select>
+
+            <button type="submit">Add Customer</button>
+
+        </form>
+
+    </div>
+
+</body>
+</html>
