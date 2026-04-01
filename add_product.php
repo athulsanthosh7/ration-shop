@@ -6,18 +6,32 @@ ini_set('display_errors', 1);
 
 if(isset($_POST['add_product'])){
 
-    $name  = $_POST['name'];
-    $price = $_POST['price'];
-    $stock = $_POST['stock'];
+    /* ===== INPUT ===== */
+    $name  = trim($_POST['name']);
+    $price = trim($_POST['price']);
+    $stock = trim($_POST['stock']);
 
-    /* HANDLE CARD TYPES */
+    /* ===== VALIDATION ===== */
+    if(empty($name)){
+        die("Product name is required");
+    }
+
+    if(!is_numeric($price) || $price <= 0){
+        die("Invalid price");
+    }
+
+    if(!is_numeric($stock) || $stock < 0){
+        die("Invalid stock");
+    }
+
+    /* CARD TYPES */
     if(isset($_POST['card_type'])){
-        $card_types = implode(", ", $_POST['card_type']); // APL, BPL
+        $card_types = implode(", ", $_POST['card_type']);
     } else {
         $card_types = "ALL";
     }
 
-    /* INSERT PRODUCT */
+    /* ===== INSERT PRODUCT ===== */
     $sql1 = "INSERT INTO system.product (product_id, product_name, price, available_to)
              VALUES (system.product_seq.NEXTVAL, :name, :price, :card)
              RETURNING product_id INTO :new_id";
@@ -31,11 +45,10 @@ if(isset($_POST['add_product'])){
 
     if (!oci_execute($stid1)) {
         $e = oci_error($stid1);
-        echo "ERROR INSERT PRODUCT: " . $e['message'];
-        exit;
+        die("Error inserting product: " . $e['message']);
     }
 
-    /* INSERT STOCK */
+    /* ===== INSERT STOCK ===== */
     $sql2 = "INSERT INTO system.stock (stock_id, product_id, quantity)
              VALUES (system.stock_seq.NEXTVAL, :pid, :qty)";
 
@@ -46,14 +59,11 @@ if(isset($_POST['add_product'])){
 
     if (!oci_execute($stid2)) {
         $e = oci_error($stid2);
-        echo "ERROR INSERT STOCK: " . $e['message'];
-        exit;
+        die("Error inserting stock: " . $e['message']);
     }
 
-    /* COMMIT */
     oci_commit($conn);
 
-    /* REDIRECT (NO ALERT) */
     header("Location: orderby.php");
     exit;
 }
